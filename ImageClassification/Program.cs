@@ -33,7 +33,7 @@ class Program
                 }
                 else
                 {
-                    image = new Bitmap(originalImage); // Create a copy to avoid modifying the original
+                    image = new Bitmap(originalImage); //Crie uma cópia para evitar modificar o original
                 }
 
                 // Resize the image
