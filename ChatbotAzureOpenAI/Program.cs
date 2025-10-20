@@ -7,8 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddEndpointsApiExplorer();
+var builder = WebApplication.CreateBuilder(args);builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
