@@ -15,13 +15,13 @@ class Program
 
         try
         {
-            // Load the ONNX model
+            // Carregar o modelo ONNX
             var session = new InferenceSession(modelPath);
 
-            // Load the image
+            // carregue a image,
             using (var originalImage = new Bitmap(imagePath))
             {
-                // Convert to RGB format (if necessary)
+                // Converte para formato RGB 
                 Bitmap image;
                 if (originalImage.PixelFormat != PixelFormat.Format24bppRgb)
                 {
@@ -46,28 +46,28 @@ class Program
                     g.DrawImage(image, 0, 0, inputWidth, inputHeight);
                 }
 
-                // Preprocess the image and create the input tensor
+                // Pré-processar a imagem e criar o tensor de entrada
                 var input = new DenseTensor<float>(new[] { 1, 3, inputHeight, inputWidth });
                 for (int y = 0; y < inputHeight; y++)
                 {
                     for (int x = 0; x < inputWidth; x++)
                     {
                         Color pixel = resizedImage.GetPixel(x, y);
-                        input[0, 0, y, x] = pixel.R / 255f; // Normalize
-                        input[0, 1, y, x] = pixel.G / 255f; // Normalize
-                        input[0, 2, y, x] = pixel.B / 255f; // Normalize
+                        input[0, 0, y, x] = pixel.R / 255f; // Normalizar
+                        input[0, 1, y, x] = pixel.G / 255f; // Normalizar
+                        input[0, 2, y, x] = pixel.B / 255f; // Normalizar
                     }
                 }
 
-                // Create the ONNX input
+                // Criar a entrada ONNX 
                 var inputs = new List<NamedOnnxValue> {
                     NamedOnnxValue.CreateFromTensor("data", input)
                 };
 
-                // Run the inference
+                // Roda a interface 
                 using (var results = session.Run(inputs))
                 {
-                    // Process the output
+                    // Processa a  saida
                     var output = results.First().AsEnumerable<float>().ToArray();
                     var maxIndex = Array.IndexOf(output, output.Max());
 
@@ -76,7 +76,7 @@ class Program
                     Console.WriteLine($"Classe prevista: {className} (índice: {maxIndex})");
                 }
 
-                // Dispose of the images
+                // Dispose 
                 image.Dispose();
                 resizedImage.Dispose();
             }
