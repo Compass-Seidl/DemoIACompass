@@ -1,13 +1,14 @@
-﻿
-using Microsoft.ML;
+﻿using Microsoft.ML;
 using Microsoft.ML.Data;
-using System.Data;
 
 namespace SentimentAnalysis
 {
     public class SentimentData
     {
-        public string Text { get; set; }
+        [LoadColumn(0)]
+        public string? Text { get; set; }
+
+        [LoadColumn(1)]
         public bool Label { get; set; }
     }
 
@@ -31,7 +32,7 @@ namespace SentimentAnalysis
             IDataView dataView = mlContext.Data.LoadFromTextFile<SentimentData>(
                 path: _dataPath,
                 hasHeader: true,
-                separatorChar: '	');
+                separatorChar: '\t');
 
             var pipeline = mlContext.Transforms.Text.FeaturizeText("Features", nameof(SentimentData.Text))
                 .Append(mlContext.BinaryClassification.Trainers.SdcaLogisticRegression(labelColumnName: "Label", featureColumnName: "Features"));
