@@ -7,7 +7,7 @@ class Program
     static void Main()
     {
         var endpoint = new Uri("https://models.github.ai/inference");
-        var credential = new AzureKeyCredential(Environment.GetEnvironmentVariable("Compass"));
+        var credential = new AzureKeyCredential("Chave");
         var model = "openai/gpt-5-mini";
 
         var client = new ChatCompletionsClient(endpoint, credential, new AzureAIInferenceClientOptions());
@@ -26,7 +26,7 @@ class Program
             {
                 Messages =
                 {
-                    new ChatRequestSystemMessage("You are a helpful assistant."),
+                    new ChatRequestSystemMessage("Você é um assistente prestativo."),
                     new ChatRequestUserMessage(input),
                 },
                 Model = model
