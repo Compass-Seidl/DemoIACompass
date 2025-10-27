@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36518.9 d17.14
+VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SentimentAnalysis", "SentimentAnalysis\SentimentAnalysis.csproj", "{F34B644E-18BF-473D-89F2-76DEA512E03F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageClassification", "ImageClassification\ImageClassification.csproj", "{C775EA3A-6248-4279-8B75-0A2CD922B4E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatbotAzureOpenAI", "ChatbotAzureOpenAI\ChatbotAzureOpenAI.csproj", "{387DFD07-881B-4264-94C8-56E59489034B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatBotGitHub", "ChatBotGitHub\ChatBotGitHub.csproj", "{658BF374-0CD5-4FDA-93A6-9E80B18C36BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{C775EA3A-6248-4279-8B75-0A2CD922B4E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C775EA3A-6248-4279-8B75-0A2CD922B4E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C775EA3A-6248-4279-8B75-0A2CD922B4E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{387DFD07-881B-4264-94C8-56E59489034B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{387DFD07-881B-4264-94C8-56E59489034B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{387DFD07-881B-4264-94C8-56E59489034B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{387DFD07-881B-4264-94C8-56E59489034B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{658BF374-0CD5-4FDA-93A6-9E80B18C36BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{658BF374-0CD5-4FDA-93A6-9E80B18C36BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{658BF374-0CD5-4FDA-93A6-9E80B18C36BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{658BF374-0CD5-4FDA-93A6-9E80B18C36BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,43 +1,34 @@
+ï»¿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.AI.OpenAI;
+using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Configuration;
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
+var builder = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: true)
+    .AddEnvironmentVariables();
 
-var builder = WebApplication.CreateBuilder(args);builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var configuration = builder.Build();
 
-var app = builder.Build();
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.MapPost("/api/chat", async (HttpContext context) =>
+var services = new ServiceCollection();
+services.AddOpenAIClient(options =>
 {
-    var request = await JsonSerializer.DeserializeAsync<ChatRequest>(context.Request.Body);
-    var client = new HttpClient();
-    client.DefaultRequestHeaders.Add("api-key", "SUA_CHAVE_AQUI");
-    client.BaseAddress = new Uri("https://SEU_ENDPOINT.openai.azure.com");
-
-    var payload = new
-    {
-        messages = new[] {
-            new { role = "system", content = "Você é um assistente útil." },
-            new { role = "user", content = request.Question }
-        },
-        temperature = 0.7,
-        max_tokens = 100
-    };
-
-    var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
-    var response = await client.PostAsync("/openai/deployments/gpt-4/chat/completions?api-version=2023-05-15", content);
-    var result = await response.Content.ReadAsStringAsync();
-    return Results.Content(result, "application/json");
+    options.ApiKey = configuration["GitHubModels:ApiKey"];
+    options.Endpoint = "https://api.github.com/models/YOUR_MODEL_ENDPOINT"; // ajuste conforme o modelo
 });
 
-app.Run();
+services.AddSingleton<IChatClient, OpenAIChatClient>();
 
-record ChatRequest(string Question);
+var provider = services.BuildServiceProvider();
+var chatClient = provider.GetRequiredService<IChatClient>();
+
+Console.WriteLine("ðŸ¤– GitHub ChatBot iniciado. Digite sua pergunta:");
+
+while (true)
+{
+    Console.Write("> ");
+    var input = Console.ReadLine();
+    if (string.IsNullOrWhiteSpace(input)) break;
+
+    var response = await chatClient.GetChatMessageAsync(input);
+    Console.WriteLine($"ðŸ§  Resposta: {response}");
+}

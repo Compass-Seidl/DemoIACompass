@@ -10,7 +10,7 @@ class Program
     static void Main(string[] args)
     {
         string modelPath = "resnet50.onnx";
-        string imagePath = @"imag1.png";
+        string imagePath = @"image4.png";
         string labelsPath = "imagenet_classes.txt"; // Relative path
 
         try
