@@ -1,69 +1,122 @@
-# AI/ML .NET 8 Examples
+# ChatBotGitHub
+
+Lightweight .NET 8 console chatbot that calls a hosted inference API (example: GitHub/third‑party model endpoint) to get chat completions. Intended as a minimal reference for integrating a remote LLM/chat completions service from a .NET 8 application.
 
 ## Introduction
 
-This project provides practical examples of using Artificial Intelligence (AI) and Machine Learning (ML) in .NET 8 applications. It is designed for developers who want to learn how to integrate AI/ML capabilities into their .NET projects.
+This project demonstrates a simple interactive console chatbot written in C# (C# 12 / .NET 8). It shows:
+- how to call a remote chat completions API from a console app,
+- safe handling of credentials (do not hardcode secrets),
+- minimal request/response flow and error handling.
+
+Use this as a starting point to integrate any compatible inference/chat API by adapting the endpoint, credential type and client calls.
+
+## Prerequisites
+
+- .NET 8 SDK: https://dotnet.microsoft.com/download/dotnet/8.0
+- Visual Studio 2022 (or VS Code) — for Visual Studio use the __Build > Build Solution__ and __Debug > Start Debugging__ commands
+- Network access to your model inference endpoint
 
 ## Installation
 
-### Prerequisites
+1. Clone the repository:
+   git clone https://github.com/Compass-Seidl/DemoIACompass.git
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) or [Visual Studio Code](https://code.visualstudio.com/) with the C# extension
+2. Open the `ChatBotGitHub` project in Visual Studio or use the CLI:
+   - Restore packages:
+     dotnet restore
+   - Build:
+     dotnet build
 
-### Steps
+## Configuration
 
-1.  Clone the repository:
+Do NOT keep secrets in source code. Configure the endpoint, key and model/deployment name via environment variables or configuration.
 
-    ```bash
-    git clone <repository-url>
-    ```
-2.  Navigate to the project directory:
+Recommended environment variables (examples):
 
-    ```bash
-    cd <project-directory>
-    ```
-3.  Restore the NuGet packages:
+- MODEL_ENDPOINT — base inference endpoint (example: `https://models.github.ai/inference`)
+- MODEL_KEY — API key / token for the inference service
+- MODEL_NAME — model or deployment id (example: `openai/gpt-5-mini`)
 
-    ```bash
-    dotnet restore
-    ```
+Set variables (PowerShell):
+$env:MODEL_ENDPOINT="https://models.github.ai/inference"
+$env:MODEL_KEY="your_api_key_here"
+$env:MODEL_NAME="openai/gpt-5-mini"
 
-## How to Run the Application
+Set variables (bash):
+export MODEL_ENDPOINT="https://models.github.ai/inference"
+export MODEL_KEY="your_api_key_here"
+export MODEL_NAME="openai/gpt-5-mini"
 
-1.  Build the project:
+Alternatively, add them to `appsettings.Development.json` or your CI secret store and read via configuration.
 
-    ```bash
-    dotnet build
-    ```
-2.  Run the application:
+## How to run
 
-    ```bash
-    dotnet run --project <project-name>
-    ```
+From the project folder:
 
-    Replace `<project-name>` with the name of the project you want to run.
+dotnet run --project ChatBotGitHub
 
-## Examples of Use
+Or, in Visual Studio:
+- Open solution
+- Select the `ChatBotGitHub` project as startup
+- Use __Debug > Start Without Debugging__ or __Debug > Start Debugging__
 
-### Example 1: Sentiment Analysis
+When running, the console will prompt:
 
-This example demonstrates how to perform sentiment analysis on text data using a pre-trained model.
+🤖 Chatbot iniciado. Digite 'sair' para encerrar.
+Você: <type your message>
 
+Example session:
+Você: Hello
+Bot: Hello — how can I help you today?
 
-### Example 2: Image Classification
+Type `sair` (or Ctrl+C) to exit.
 
-This example shows how to classify images using a pre-trained image classification model.
+## Code notes
+
+The minimal example in `Program.cs`:
+- Creates a client for an inference endpoint
+- Sends simple system + user messages
+- Prints the first returned completion content
+- Catches and prints exceptions
+
+Be sure to adapt:
+- client instantiation to match your provider SDK (Azure, GitHub, OpenAI, etc.)
+- request shape (some providers expect different message formats)
+- authentication mechanism
 
 ## Dependencies
 
-- [Microsoft.ML](https://www.nuget.org/packages/Microsoft.ML)
-- [SciSharp.TensorFlow.Redist](https://www.nuget.org/packages/SciSharp.TensorFlow.Redist)
-- [TensorFlow.NET](https://www.nuget.org/packages/TensorFlow.NET)
-- Other dependencies may be listed in the `.csproj` file.
+Required NuGet packages (as used by the example code):
+- Azure.Core (for `AzureKeyCredential`)
+- Azure.AI.Inference (or the provider-specific SDK you choose; e.g., Azure.AI.OpenAI for Azure OpenAI)
 
-## Project Structure
+Install via CLI (example):
+dotnet add ChatBotGitHub package Azure.Core
+dotnet add ChatBotGitHub package Azure.AI.Inference
 
-## Licensing
+Adjust package names to match your chosen provider's SDK.
 
-This project is licensed under the [MIT License](LICENSE). See the `LICENSE` file for more information.
+## Project structure
+
+ChatBotGitHub/
+- Program.cs         — console chatbot main (interactive)
+- ChatBotGitHub.csproj
+- README.md
+
+Solution root contains other example projects (ImageClassification, etc.) in the repository.
+
+## Troubleshooting
+
+- "Endpoint/Key errors": verify environment variables and that the key is valid for the endpoint.
+- "Network/Timeouts": ensure outbound network access and correct base URL.
+- "Invalid response shape": inspect the provider docs; message/response structure may differ.
+- If you previously hardcoded keys, remove them and rotate secrets.
+
+## Contributing
+
+Contributions, fixes and improvements welcome. Open PRs against `master` branch on the repo.
+
+## License
+
+This project is provided under the MIT License. See the `LICENSE` file for details.
