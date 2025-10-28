@@ -56,12 +56,12 @@ namespace SentimentAnalysis
                 Console.Write("Digite uma frase para análise de sentimento (ou 'sair'): ");
                 var input = Console.ReadLine();
                 if (input?.ToLower() == "sair") break;
-
+                //Mostra o sentimento previsto e a confiança da predição.
                 var prediction = predictor.Predict(new SentimentData { Text = input });
                 Console.WriteLine($"Sentimento: {(prediction.Prediction ? "Positivo" : "Negativo")} (Confiança: {prediction.Probability:P2})");
             }
             //Loop interativo para o usuário testar frases.
-	        //Mostra o sentimento previsto e a confiança da predição.
+	        
 
         }
     }
