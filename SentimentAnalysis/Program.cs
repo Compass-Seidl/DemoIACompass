@@ -42,16 +42,18 @@ namespace SentimentAnalysis
 
 
             var model = pipeline.Fit(dataView);
+            // Fit: treina o modelo com os dados.
 
             mlContext.Model.Save(model, dataView.Schema, _modelPath);
+            //• Save: salva o modelo treinado em disco para uso posterior.
             Console.WriteLine("Modelo treinado e salvo em: " + _modelPath);
-            // Fit: treina o modelo com os dados.
-	        //• Save: salva o modelo treinado em disco para uso posterior.
+            
+	       
 
 
             var predictor = mlContext.Model.CreatePredictionEngine<SentimentData, SentimentPrediction>(model);
 
-            while (true)
+            while (true)//Loop interativo para o usuário testar frases.
             {
                 Console.Write("Digite uma frase para análise de sentimento (ou 'sair'): ");
                 var input = Console.ReadLine();
@@ -60,7 +62,7 @@ namespace SentimentAnalysis
                 var prediction = predictor.Predict(new SentimentData { Text = input });
                 Console.WriteLine($"Sentimento: {(prediction.Prediction ? "Positivo" : "Negativo")} (Confiança: {prediction.Probability:P2})");
             }
-            //Loop interativo para o usuário testar frases.
+            
 	        
 
         }

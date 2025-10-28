@@ -9,7 +9,7 @@ class Program
         static void Main()
         {
             var endpoint = new Uri("https://models.github.ai/inference");
-            var chave = Environment.GetEnvironmentVariable("Compass");
+        var chave = Environment.GetEnvironmentVariable("Compass");
             if (string.IsNullOrWhiteSpace(chave))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
