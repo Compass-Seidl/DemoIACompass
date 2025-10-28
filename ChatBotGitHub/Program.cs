@@ -10,6 +10,13 @@ class Program
         {
             var endpoint = new Uri("https://models.github.ai/inference");
             var chave = Environment.GetEnvironmentVariable("Compass");
+            if (string.IsNullOrWhiteSpace(chave))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Erro: A variável de ambiente 'Compass' não está definida.");
+                Console.ResetColor();
+                return;
+            }
             var credential = new AzureKeyCredential(chave);
             var model = "openai/gpt-5-mini";
 
